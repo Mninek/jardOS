@@ -77,11 +77,20 @@ void reset_color() {
 }
 
 void terminal_test_print() {
+	int test = 2;
+	char test2 = 'a';
+	char* string = "This is a string";
 	terminal_setcolor(vga_entry_color(VGA_COLOR_BLUE, VGA_COLOR_RED));
 	printf("Hi! Line two test and also a test for writing a sentence that is very much too long for a single terminal line so we shall see what happens!\n");
 	reset_color();
 	printf("Reset color test!\n");
-	for (int i = 0; i < 25; i++){
+	printf("hexadecimal test %x, %x, %x, %x, %x, %x\n", 10, 11, 12, 13, 14, 15);
+	printf("char test %c\n", test2);
+	printf("pointer test %p\n", &test);
+	printf("pointer test2 %p\n", &test2);
+	printf("String test %s\n", "this is a string");
+	printf("String test2 %s\n", string);
+	for (int i = 0; i < 10; i++){
 		printf("scroll test\t%i\n", i);
 	}
 }

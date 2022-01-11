@@ -10,14 +10,20 @@ int itoa(unsigned long int n, char *buf, int base) {
     int i = 0;
     do {
         curr = temp % base;
-        buf[i] = (char)(curr + 48); // add 48 because ASCII of 0 is 48
+        char ch = (char)(curr + 48); // add 48 because ASCII of 0 is 48
+        if (58 <= ch && ch <= 63) {
+            ch += 39;
+        }
+        buf[i] = ch;
         temp /= base;
         i++;
     } while(temp > 0);
 
     strrev(buf);
     return i;
-}
+} 
+//97, 98, 99, 100, 101, 102
+//58, 59, 60, 61,  62,  63
 
 int strrev(char *buf) {
     int length = strlen(buf);

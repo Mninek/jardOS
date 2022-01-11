@@ -3,6 +3,7 @@
 #include <stdarg.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdint.h>
  
 static bool printCharacter(char data) {
 	if (putchar(data) == EOF)
@@ -10,10 +11,9 @@ static bool printCharacter(char data) {
 	return true;
 }
 
-static bool printString(const char* data, size_t length) {
-	const unsigned char* bytes = (const unsigned char*) data;
+static bool printString(char* data, size_t length) {
 	for (size_t i = 0; i < length; i++)
-		if (putchar(bytes[i]) == EOF)
+		if (putchar(data[i]) == EOF)
 			return false;
 	return true;
 }
@@ -25,6 +25,7 @@ static bool printString(const char* data, size_t length) {
 	i = unsigned int
 	p = pointer
 	u = unsignted int
+	x = hexadecimal
 	% = treated as a single %
 */
 
@@ -32,21 +33,55 @@ int vprintf(const char* format, va_list list) {
 	int written = 0;
 
 	for (int i = 0; format[i] != '\0'; i++) {
-		char buf[8]; // may need to increase in the future
+		char buf[256]; // may need to increase in the future
 		if (format[i] == '%') {
 			i++;
+			int param = 0;
+			int len = 0;
 			switch(format[i]) {
 				case 'i':
-					int param = va_arg(list, int);
-					int len = itoa(param, buf, 10);
+					param = va_arg(list, int);
+					len = itoa(param, buf, 10);
 					printString(buf, len);
+					break;
+				case 'x':
+					param = va_arg(list, int);
+					len = itoa(param, buf, 16);
+					printString(buf, len);
+					break;
+				case 'c':
+					char char_param = va_arg(list, int);
+					len = 1;
+					printCharacter(char_param);
+					break;
+				case 'p':
+					char* ptr = va_arg(list, char*);
+					uint64_t converted_ptr = (uint64_t)ptr;
+					len = itoa(converted_ptr, buf, 16);
+					printString("0x", 2);
+					int zeroes = 0;
+
+					while (len + zeroes < 8) {
+						printCharacter('0');
+						zeroes += 1;
+					}
+					printString(buf, len);
+					written += zeroes;
+					break;
+				case 's':
+					char* string = va_arg(list, char*);
+					len = strlen(string);
+					printString(string, len);
 					break;
 				default:
 					char* implement = "Work in progress";
 					printString(implement, strlen(implement));
+
+				written += len;
 			}
 		} else {
 			printCharacter(format[i]);
+			written += 1;
 		}
 	}
 }
