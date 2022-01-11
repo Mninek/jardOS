@@ -44,7 +44,15 @@ void terminal_putchar(char c) {
 	if (uc == '\n') {
 		terminal_row += 1;
 		terminal_column = 0;
-	} else {
+	} 
+	else if (uc == '\t') {
+		terminal_column += 4;
+		if (terminal_column > VGA_WIDTH) {
+			terminal_column = terminal_column % VGA_WIDTH;
+			terminal_row += 1;
+		}
+	} 
+	else {
 		terminal_putentryat(uc, terminal_color, terminal_column, terminal_row);
 		if (++terminal_column == VGA_WIDTH) {
 			terminal_column = 0;
@@ -70,7 +78,10 @@ void reset_color() {
 
 void terminal_test_print() {
 	terminal_setcolor(vga_entry_color(VGA_COLOR_BLUE, VGA_COLOR_RED));
-	printf("Hi! Line two test!\n");
+	printf("Hi! Line two test and also a test for writing a sentence that is very much too long for a single terminal line so we shall see what happens!\n");
 	reset_color();
 	printf("Reset color test!\n");
+	for (int i = 0; i < 25; i++){
+		printf("scroll test\t%i\n", i);
+	}
 }
