@@ -20,6 +20,10 @@ LIBS:=$(LIBS) -nostdlib -lk -lgcc
 
 ARCHDIR=arch/$(HOSTARCH)
 
+DRIVERDIR=drivers/
+
+SYSTEMDIR=system/
+
 include $(ARCHDIR)/make.config
 
 CFLAGS:=$(CFLAGS) $(KERNEL_ARCH_CFLAGS)
@@ -31,12 +35,20 @@ KERNEL_OBJS=\
 $(KERNEL_ARCH_OBJS) \
 kernel/kernel.o \
 
+DRIVERS=\
+$(DRIVERDIR)/serial_port.o\
+
+SYSTEM=\
+$(SYSTEMDIR)/io.o\
+
 OBJS=\
 $(ARCHDIR)/crti.o \
 $(ARCHDIR)/crtbegin.o \
 $(KERNEL_OBJS) \
 $(ARCHDIR)/crtend.o \
 $(ARCHDIR)/crtn.o \
+$(DRIVERS)\
+$(SYSTEM)\
 
 LINK_LIST=\
 $(LDFLAGS) \
@@ -46,6 +58,8 @@ $(KERNEL_OBJS) \
 $(LIBS) \
 $(ARCHDIR)/crtend.o \
 $(ARCHDIR)/crtn.o \
+$(DRIVERS)\
+$(SYSTEM)\
 
 .PHONY: all clean install install-headers install-kernel
 .SUFFIXES: .o .c .S

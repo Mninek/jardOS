@@ -1,5 +1,12 @@
 {
     "files.associations": {
-        "stdio.h": "c"
+        "stdio.h": "c",
+        "stdint.h": "c",
+        "string.h": "c",
+        "stdarg.h": "c",
+        "stdbool.h": "c",
+        "limits.h": "c",
+        "serial_port.h": "c",
+        "io.h": "c"
     }
 }
