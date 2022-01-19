@@ -13,7 +13,7 @@ static bool printCharacter(char data) {
 
 static bool printString(char* data, size_t length) {
 	for (size_t i = 0; i < length; i++)
-		if (putchar(data[i]) == EOF)
+		if (!printCharacter(data[i]))
 			return false;
 	return true;
 }
@@ -29,7 +29,7 @@ static bool printString(char* data, size_t length) {
 	% = treated as a single %
 */
 
-int vprintf(const char* format, va_list list) {
+int vprintf(const char* format, bool (*printCharacterPointer)(char), bool (*printStringPointer)(char*, size_t), va_list list) {
 	int written = 0;
 
 	for (int i = 0; format[i] != '\0'; i++) {
@@ -42,57 +42,57 @@ int vprintf(const char* format, va_list list) {
 				case 'i':
 					param = va_arg(list, int);
 					len = itoa(param, buf, 10);
-					printString(buf, len);
+					printStringPointer(buf, len);
 					break;
 				case 'x':
 					param = va_arg(list, int);
 					len = itoa(param, buf, 16);
-					printString(buf, len);
+					printStringPointer(buf, len);
 					break;
 				case 'c':
 					char char_param = va_arg(list, int);
 					len = 1;
-					printCharacter(char_param);
+					printCharacterPointer(char_param);
 					break;
 				case 'p':
 					char* ptr = va_arg(list, char*);
 					uint64_t converted_ptr = (uint64_t)ptr;
 					len = itoa(converted_ptr, buf, 16);
-					printString("0x", 2);
+					printStringPointer("0x", 2);
 					int zeroes = 0;
 
 					while (len + zeroes < 8) {
-						printCharacter('0');
+						printCharacterPointer('0');
 						zeroes += 1;
 					}
-					printString(buf, len);
+					printStringPointer(buf, len);
 					written += zeroes;
 					break;
 				case 's':
 					char* string = va_arg(list, char*);
 					len = strlen(string);
-					printString(string, len);
+					printStringPointer(string, len);
 					break;
 				default:
 					char* implement = "Work in progress";
-					printString(implement, strlen(implement));
+					printStringPointer(implement, strlen(implement));
 
 				written += len;
 			}
 		} else {
-			printCharacter(format[i]);
+			printCharacterPointer(format[i]);
 			written += 1;
 		}
 	}
 }
- 
+
 int printf(const char* restrict format, ...) {
 	// all params after format get sent in to parameters
 	// these params will be used to inject variables in to the output
 	va_list parameters;
 	va_start(parameters, format); 
  
-	int written = vprintf(format, parameters);
+	int written = vprintf(format, printCharacter, printString, parameters);
  
 	va_end(parameters);
 	return written;
