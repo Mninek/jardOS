@@ -16,7 +16,9 @@ start xming server by opening the app
 ./qemu.sh
 
 # TODO
-
+- [x] Serial port debugging
+- [] Basic interrupt/exception handling
+- [] Memory Stuff
 - [] terminal scrolling
 - [] user input
 - [] terminal resizing
