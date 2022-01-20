@@ -16,9 +16,13 @@ start xming server by opening the app
 ./qemu.sh
 
 # TODO
+## Bigger tasks
 - [x] Serial port debugging
 - [] Basic interrupt/exception handling
 - [] Memory Stuff
 - [] terminal scrolling
 - [] user input
 - [] terminal resizing
+
+## Smaller tasks
+- [] move location of binutils and gcc from barebones directory

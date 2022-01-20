@@ -7,6 +7,8 @@
         "stdbool.h": "c",
         "limits.h": "c",
         "serial_port.h": "c",
-        "io.h": "c"
+        "io.h": "c",
+        "tty.h": "c",
+        "vga.h": "c"
     }
 }
