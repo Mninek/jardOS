@@ -24,6 +24,8 @@ DRIVERDIR=drivers/
 
 SYSTEMDIR=system/
 
+TABLESDIR=kernel/tables/
+
 include $(ARCHDIR)/make.config
 
 CFLAGS:=$(CFLAGS) $(KERNEL_ARCH_CFLAGS)
@@ -41,6 +43,9 @@ $(DRIVERDIR)/serial_port.o\
 SYSTEM=\
 $(SYSTEMDIR)/io.o\
 
+TABLES=\
+$(TABLESDIR)/gdt.o\
+
 OBJS=\
 $(ARCHDIR)/crti.o \
 $(ARCHDIR)/crtbegin.o \
@@ -49,6 +54,7 @@ $(ARCHDIR)/crtend.o \
 $(ARCHDIR)/crtn.o \
 $(DRIVERS)\
 $(SYSTEM)\
+$(TABLES)\
 
 LINK_LIST=\
 $(LDFLAGS) \
@@ -60,6 +66,7 @@ $(ARCHDIR)/crtend.o \
 $(ARCHDIR)/crtn.o \
 $(DRIVERS)\
 $(SYSTEM)\
+$(TABLES)\
 
 .PHONY: all clean install install-headers install-kernel
 .SUFFIXES: .o .c .S
