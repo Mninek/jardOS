@@ -7,3 +7,4 @@ export PREFIX="$JHOME/opt/cross"
 export TARGET=i686-elf
 export PATH="$PREFIX/bin:$PATH"
 export DISPLAY=:0
+export JOSLOG="python3 ../jardOSLogViewer/LogViewer.py debug.log"
