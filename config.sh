@@ -6,7 +6,7 @@ export HOST=${HOST:-$(./default-host.sh)}
  
 export AR=${HOST}-ar
 export AS=${HOST}-as
-export CC=${HOST}-gcc #export CC="mnt/g/jardOS_barebones/opt/cross/bin/i686-elf-gcc" path to where i686-elf-gcc currently lives
+export CC=${HOST}-gcc #export CC="mnt/g/jardos_stuff/opt/cross/bin/i686-elf-gcc" path to where i686-elf-gcc currently lives
  
 export PREFIX=/usr
 export EXEC_PREFIX=$PREFIX

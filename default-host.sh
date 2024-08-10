@@ -1,2 +1,2 @@
 #!/bin/sh
-echo /mnt/g/jardOS_barebones/opt/cross/bin/i686-elf
+echo /mnt/j/jardos_stuff/opt/cross/bin/i686-elf
